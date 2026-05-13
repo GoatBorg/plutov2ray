@@ -18,5 +18,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: plutov2ray-debugss
+          name: plutov2ray-debugsss
           path: app/build/outputs/apk/debug/*.apk
