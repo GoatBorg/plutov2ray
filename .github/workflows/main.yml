@@ -10,21 +10,21 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '11' # Daha uyumlu bir Java sürümü
           
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.10.0' # Sürümü sabitledik, kavga bitsin
           channel: 'stable'
           
       - run: flutter pub get
       
-      # Gradle'a 'izinleri boşver ve her şeye evet de' komutu
-      - name: Make Gradlew Executable
-        run: chmod +x android/gradlew
-        
       - name: Build APK
-        run: flutter build apk --release --no-pub --split-debug-info=build/app/outputs/symbols
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
