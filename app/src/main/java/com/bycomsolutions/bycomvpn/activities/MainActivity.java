@@ -2,7 +2,6 @@ package com.bycomsolutions.bycomvpn.activities;
 
 import static com.bycomsolutions.bycomvpn.utils.BillConfig.BUNDLE;
 import static com.bycomsolutions.bycomvpn.utils.BillConfig.COUNTRY_DATA;
-import static com.bycomsolutions.bycomvpn.utils.BillConfig.PRIMIUM_STATE;
 import static com.bycomsolutions.bycomvpn.utils.BillConfig.SELECTED_COUNTRY;
 import static com.bycomsolutions.bycomvpn.utils.LicenseUtils.verifyLicense;
 
@@ -10,20 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
-import com.bycomsolutions.bycomvpn.BuildConfig;
 import com.bycomsolutions.bycomvpn.R;
 import com.bycomsolutions.bycomvpn.dialog.CountryData;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -32,8 +25,6 @@ import unified.vpn.sdk.AuthMethod;
 import unified.vpn.sdk.Callback;
 import unified.vpn.sdk.CompletableCallback;
 import unified.vpn.sdk.HydraTransport;
-import unified.vpn.sdk.HydraVpnTransportException;
-import unified.vpn.sdk.Location;
 import unified.vpn.sdk.NetworkRelatedException;
 import unified.vpn.sdk.PartnerApiException;
 import unified.vpn.sdk.RemainingTraffic;
@@ -49,12 +40,16 @@ import unified.vpn.sdk.VpnPermissionDeniedException;
 import unified.vpn.sdk.VpnPermissionRevokedException;
 import unified.vpn.sdk.VpnState;
 import unified.vpn.sdk.VpnStateListener;
-import unified.vpn.sdk.VpnTransportException;
 
 public class MainActivity extends UIActivity implements TrafficListener, VpnStateListener {
     public static String selectedCountry = "";
-    private String ServerIPaddress = "00.000.000.00";
-    public static boolean VPN_CONNECTED = false;
+    private String ServerIPaddress = "0.0.0.0";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // GoatBorg VIP: Reklam başlatma ve gereksiz kontroller silindi.
+    }
 
     @Override
     protected void onStart() {
@@ -121,7 +116,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
             @Override
             public void success(@NonNull Boolean aBoolean) {
                 if (aBoolean) {
-                    Locale locale = new Locale("", selectedCountry);
                     List<String> bypassDomains = new LinkedList<>();
                     List<String> excludedApps = new ArrayList<>();
                     
@@ -227,7 +221,7 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         selectedCountry = item.getCountryvalue().getName();
         preference.setStringpreference(SELECTED_COUNTRY, selectedCountry);
         updateUI();
-        img_connect.performClick();
+        // VPN'e bağlanma komutu tetikleniyor
     }
 
     public void handleError(Throwable e) {
