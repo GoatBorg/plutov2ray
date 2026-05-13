@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import com.bycomsolutions.bycomvpn.BuildConfig;
 import com.bycomsolutions.bycomvpn.R;
 import com.bycomsolutions.bycomvpn.dialog.CountryData;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -65,15 +63,12 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
     public static boolean VPN_CONNECTED = false;
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
         UnifiedSdk.addTrafficListener(this);
         UnifiedSdk.addVpnStateListener(this);
     }
-
 
     @Override
     protected void onStop() {
@@ -84,8 +79,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
     @Override
     public void onTrafficUpdate(long bytesTx, long bytesRx) {
-
-
         updateUI();
         updateTrafficStats(bytesTx, bytesRx);
     }
@@ -95,8 +88,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         Log.e("sdfkljslkfj",vpnState.name());
         updateUI();
     }
-
-
 
     @Override
     public void vpnError(@NonNull VpnException e) {
@@ -111,13 +102,8 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
     @Override
     protected void loginToVpn() {
-
-
-
         verifyLicense(this);
         AuthMethod authMethod = AuthMethod.anonymous();
-
-
 
         UnifiedSdk.getInstance().getBackend().login(authMethod, new Callback<User>() {
             @Override
@@ -173,12 +159,7 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
                         showMessage(getString(R.string.connecting_to_fastest_server));
                     else showMessage(getString(R.string.connecting_to)+ locale.getDisplayCountry());
 
-
-
                     List<String> bypassDomains = new LinkedList<>();
-                    /*bypassDomains.add("*facebook.com");
-                    bypassDomains.add("*wtfismyip.com");*/
-
 
                     List<String> excludedApps = new ArrayList<>();
                     String json = preference.getStringpreference(BuildConfig.PREFERENCE_KEY_EXCLUDED_LIST);
@@ -188,15 +169,12 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
                         excludedApps = new ArrayList<>(excludedAppMap.keySet());
                     }
 
-
-
                     UnifiedSdk.getInstance().getVpn().start(new SessionConfig.Builder()
                             .withReason(TrackingConstants.GprReasons.M_UI)
                             .withLocation(selectedCountry)
                             .withTransport(HydraTransport.TRANSPORT_ID)
                             .addDnsRule(TrafficRule.dns().bypass().fromDomains(bypassDomains))
                             .exceptApps(excludedApps)
-
                             .build(), new CompletableCallback() {
                         @Override
                         public void complete() {
@@ -206,17 +184,8 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
                             if(selectedCountry.isEmpty())
                                 showMessage(getString(R.string.connected_to_fastest_server));
                             else showMessage(getString(R.string.connected_to)+ locale.getDisplayCountry());
-
-                            MobileAds.initialize(MainActivity.this, initializationStatus -> {
-                                Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
-                                for (String adapterClass : statusMap.keySet()) {
-                                    AdapterStatus status = statusMap.get(adapterClass);
-                                    Log.d("MyApp", String.format(
-                                            "Adapter name: %s, Description: %s, Latency: %d",
-                                            adapterClass, status.getDescription(), status.getLatency()));
-                                }
-                            });
-                            showInterstial();
+                            
+                            // GoatBorg VIP: Reklam yükleme ve gösterme kodları tamamen silindi!
                         }
 
                         @Override
@@ -236,7 +205,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         });
     }
 
-
     @Override
     protected void disconnectFromVnp() {
         verifyLicense(this);
@@ -244,11 +212,8 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         UnifiedSdk.getInstance().getVpn().stop(TrackingConstants.GprReasons.M_UI, new CompletableCallback() {
             @Override
             public void complete() {
-                /*uploading_state_animation.pauseAnimation();
-                downloading_state_animation.pauseAnimation();*/
                 hideConnectProgress();
                 stopUIUpdateTask();
-                //LoadInterstitialAd();
             }
 
             @Override
@@ -327,7 +292,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
     @Override
     protected void checkRemainingTraffic() {
-
         UnifiedSdk.getInstance().getBackend().remainingTraffic(new Callback<RemainingTraffic>() {
             @Override
             public void success(@NonNull RemainingTraffic remainingTraffic) {
@@ -343,24 +307,9 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
     }
 
     public void onRegionSelected(CountryData item) {
-
          final Location new_countryValue = item.getCountryvalue();
         if (!item.isPro() || preference.isBooleenPreference(PRIMIUM_STATE)) {
             selectedCountry = new_countryValue.getName();
-
-
-
-/*
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Copied Text", selectedCountry);
-            clipboard.setPrimaryClip(clip);*/
-
-
-
-
-
-
-
             preference.setStringpreference(SELECTED_COUNTRY, selectedCountry);
             updateUI();
             UnifiedSdk.getVpnState(new Callback<VpnState>() {
@@ -375,7 +324,6 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
                             @Override
                             public void error(@NonNull VpnException e) {
-                                // In this case we try to reconnect
                                 selectedCountry = "";
                                 preference.setStringpreference(SELECTED_COUNTRY, selectedCountry);
                                 connectToVpn();
@@ -432,9 +380,7 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
 
     @Override
     public void onClick(View view) {
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -445,5 +391,4 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         alertDialog.setNegativeButton(R.string.no, null);
         alertDialog.show();
     }
-
 }
