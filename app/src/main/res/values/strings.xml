@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bycom VPN</string>
+    <string name="app_name">GoatBorg VPN</string>
     <string name="admob_app_ID">ca-app-pub-3199095846318242~1980570898</string>
     <string name="vpn_process_name" translatable="false">:my.custom.vpn.process.name</string>
     <string name="notify"> notification</string>
