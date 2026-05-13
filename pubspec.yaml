@@ -1,0 +1,28 @@
+name: nebula_vpn
+description: Açık Kaynak Yazılım Tapınağı VPN Projesi
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  # VPN ve Proxy işlemleri için gerekenler
+  http: ^1.1.0
+  shared_preferences: ^2.2.1
+  url_launcher: ^6.1.12
+  flutter_v2ray: ^1.2.0 # Veya hangi VPN motorunu kullanıyorsan
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  # Eğer logon veya ikonun varsa buraya eklersin
+  # assets:
+  #   - assets/images/
