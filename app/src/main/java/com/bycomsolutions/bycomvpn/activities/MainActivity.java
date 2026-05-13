@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bycomsolutions.bycomvpn.R;
@@ -43,10 +44,13 @@ import unified.vpn.sdk.VpnStateListener;
 public class MainActivity extends UIActivity implements TrafficListener, VpnStateListener {
     public static String selectedCountry = "";
     private String ServerIPaddress = "0.0.0.0";
+    private ImageView img_connect; // Hata veren buton tanımı eklendi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // XML'den butonu bağla (Hata almamak için)
+        img_connect = findViewById(R.id.img_connect);
         // GoatBorg VIP: Reklamlar ve gereksiz kontroller temizlendi.
     }
 
@@ -220,7 +224,9 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         selectedCountry = item.getCountryvalue().getName();
         preference.setStringpreference(SELECTED_COUNTRY, selectedCountry);
         updateUI();
-        img_connect.performClick();
+        if (img_connect != null) {
+            img_connect.performClick();
+        }
     }
 
     public void handleError(Throwable e) {
