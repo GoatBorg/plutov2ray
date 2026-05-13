@@ -18,7 +18,13 @@ jobs:
           channel: 'stable'
           
       - run: flutter pub get
-      - run: flutter build apk --release
+      
+      # Gradle'a 'izinleri boşver ve her şeye evet de' komutu
+      - name: Make Gradlew Executable
+        run: chmod +x android/gradlew
+        
+      - name: Build APK
+        run: flutter build apk --release --no-pub --split-debug-info=build/app/outputs/symbols
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
