@@ -26,7 +26,6 @@ import unified.vpn.sdk.Callback;
 import unified.vpn.sdk.CompletableCallback;
 import unified.vpn.sdk.HydraTransport;
 import unified.vpn.sdk.NetworkRelatedException;
-import unified.vpn.sdk.PartnerApiException;
 import unified.vpn.sdk.RemainingTraffic;
 import unified.vpn.sdk.SessionConfig;
 import unified.vpn.sdk.SessionInfo;
@@ -48,7 +47,7 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // GoatBorg VIP: Reklam başlatma ve gereksiz kontroller silindi.
+        // GoatBorg VIP: Reklamlar ve gereksiz kontroller temizlendi.
     }
 
     @Override
@@ -221,7 +220,7 @@ public class MainActivity extends UIActivity implements TrafficListener, VpnStat
         selectedCountry = item.getCountryvalue().getName();
         preference.setStringpreference(SELECTED_COUNTRY, selectedCountry);
         updateUI();
-        // VPN'e bağlanma komutu tetikleniyor
+        img_connect.performClick();
     }
 
     public void handleError(Throwable e) {
